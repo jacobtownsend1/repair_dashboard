@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>dashboard</title>  
+</head>
+
+<body>
+  <div class="welcome">
+    <center>
+      <h1>
+        <font size="13" color="black">
+           Repairs Dashboard
+        </font>
+      </h1>
+    </center>
+  </div>
+  {% block content %}
+  <center>
+	  </br>
+	  <form action="search" method="POST">
+		  <input name="search" placeholder="search" value="{{ request.form.search }}">
+		  <button>search</button>
+	  </br>
+	  </form>
+    <hr>
+  </center>
+  <center>
+    
+    <style>
+	table{
+		border: 1px solid black;
+	}
+	th, td {
+		padding: 10px;
+	}
+    </style>
+
+    <table border=1 frame=void rules=rows>
+	    <tr> 
+		    <th>ticket</th>
+		    <th>date</th>
+		    <th>customer name</th>
+		    <th>machine model</th>
+		    <th>status</th>
+	    	    <th>created by</th>
+	    </tr>
+	{% for ticket in tickets %}
+		<tr>
+			
+			<td> 
+			<a href="{{ url_for('edit', ticket_id=ticket['repair_id'])}}">
+					{{ ticket['repair_id'] }}
+			</a> 
+			</td>
+			<td> {{ ticket['date'] }} </td>
+			<td> {{ ticket['customer_name'] }} </td>
+			<td> {{ ticket['machine_model'] }} </td>
+			<td> {{ ticket['status'] }}</td>
+			<td> {{ ticket['created_by'] }}</td>
+			<td> <a href="{{ url_for('customerview', ticket_id=ticket['repair_id'])}}">customer view</a></td>
+		</tr>
+	{% endfor %}
+    </table>
+    {% endblock %}
+    </br>
+    <a href="/new_ticket">
+	    <button>Create New Ticket</button>
+    </a>
+  </center>
+  
+
+  <div class="footer">
+    <footer style="position: fixed; left: 2; right: 2; width: 100%; bottom: 0;">
+      <center> 
+	      <a href="/logout">log out</a><br>
+	Simple Mining - 2022
+      </center>
+    </footer>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,16 @@
+<head>
+	<title>
+		Ticket
+	</title>
+</head>
+<body>
+	<center>
+		<h2>Ticket Status</h2><hr> 
+		{% block content %}
+			<p><strong>ticket number:  </strong>{{ticket['repair_id']}}  </p>
+			<p><strong>customer name:  </strong>{{ticket['customer_name']}} </p>
+			<p><strong>machine model:  </strong>{{ticket['machine_model']}}</p>
+			<p><strong>status:  </strong>{{ticket['status']}} </p>
+		{% endblock %}
+	</center>
+</body>

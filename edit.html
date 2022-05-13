@@ -1,0 +1,75 @@
+<head>
+	<title>
+		Ticket
+	</title>
+</head>
+<body>
+	<center>
+	{% block content %}
+	<form method="POST" id="main-form"></form>
+	<p>repair id: </p><input form="main-form" readonly value={{ ticket['repair_id'] }} name="repair_id" class="form-control"></br>
+	<p>customer name: </p><input form="main-form" readonly value="{{ ticket['customer_name'] }}" name="customer_name" class="form-control"></input></br>
+	
+
+<style>
+table {
+	border:1px solid black;
+}
+th, td {
+	padding: 10px;
+	max-width: 400px;
+}
+</style>
+
+	</br>	
+	<table border=1 frame=void rules=rows>
+		<tr>
+			<th>notes</th>
+			<th>left by</th>
+			<th>date</th>
+			<th>actions</th>
+		</tr>
+	{% for note in notes %}
+		<tr>
+			<td>{{ note['note'] }} </td>
+			<td>{{ note['creator'] }} </td>
+			<td>{{ note['date']}}</td>
+			<td> 
+				<form method="POST" action="{{url_for('deletenote', note_id=note['nid'])}}"><button type="submit">delete</button></form>
+			</td>
+		</tr>
+	{% endfor %}
+	</table>
+	<form id="sub-form" method="POST" action="{{url_for('addnote', ticket_id=ticket['repair_id'])}}"></form>
+	<textarea name="note" form="sub-form" style="width: 400px"></textarea><br>
+	<button type="submit" form="sub-form">Add Note</button>
+
+
+
+	</br><p>machine model:</p>
+	<select form="main-form" name="machine_model" class="form-control">
+		{% for miner in miners %}
+			{% if miner['name'] == ticket['machine_model'] %}
+				<option value="{{miner['name']}}" selected>{{miner['name']}}</option>
+			{% else %}
+				<option value="{{miner['name']}}">{{miner['name']}}</option>
+			{% endif %}
+		{% endfor %}
+	</select>
+	</br><p>status: </p>
+	<select form="main-form" name="status" class="form-control">
+		{% for status in statuses %}
+			{% if status['status'] == ticket['status'] %}
+				<option value="{{status['status']}}" selected>{{status['status']}}</option>
+			{% else %}
+				<option value="{{status['status']}}">{{status['status']}}</option>
+			{% endif %}
+		{% endfor %}
+	</select> 
+	</br> 
+	</br>
+	<button form="main-form" type="submit">Save Ticket</button><a href="/"><button>Return Home</button></a>
+
+	{% endblock %}
+	</center>
+</body>
